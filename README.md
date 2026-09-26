@@ -2,15 +2,17 @@
 
 Read the Smartschool Webtop student portal through connected Chrome and create Hebrew student reports.
 
-Webtop portal: https://webtop.smartschool.co.il/
+Webtop portal: [https://webtop.smartschool.co.il/](https://webtop.smartschool.co.il/)
 
-## Requirements
+## Setup
+
+Requirements:
 
 - Chrome with the connected Chrome extension enabled.
 - An active login to the Webtop portal in that connected Chrome profile.
 - The Smartschool student account and requested student selected in Webtop.
 
-If Chrome or the login is unavailable, the skill reports the access blocker instead of guessing.
+The skill is installed at ~/.codex/skills/webtop. Start a new chat after installation if the skill picker still shows its former name.
 
 ## How to use
 
@@ -20,19 +22,21 @@ Mention $webtop in a message and describe the report you want. You can write in 
 | --- | --- |
 | Last week's homework | Use $webtop to list last week's homework in a Hebrew table. |
 | Specific dates | Use $webtop to list homework from 01/09/2026 through 26/09/2026. |
-| New homework | Use $webtop to check for new or changed homework since the previous check. |
+| New homework only | Use $webtop to check for new or changed homework since the previous check. |
+| Daily all-updates message | Use $webtop to check all supported sections for new or changed updates since the previous check and prepare one Hebrew message. |
 | WhatsApp text | Use $webtop to prepare last week's homework as a Hebrew WhatsApp message. |
 | Timetable | Use $webtop to show tomorrow's timetable and any available changes. |
 | Grades | Use $webtop to summarize grades for the current study period. |
 | Attendance | Use $webtop to list last week's recorded absences and lateness. |
+| Lesson events | Use $webtop to list last week's lesson events, including positive feedback. |
 | Teacher messages | Use $webtop to summarize last week's teacher messages and explicit deadlines. |
-| Full report | Use $webtop to prepare a full weekly report in Hebrew. |
+| Full report | Use $webtop to prepare a full weekly report in Hebrew: homework, grades, attendance and lesson events, teacher messages, and the current timetable with available changes. |
 
 Hebrew example:
 
 > השתמש ב־$webtop והצג את שיעורי הבית של השבוע שעבר בטבלה בעברית.
 
-## Example output
+## Example homework output
 
 | תאריך השיעור | מקצוע | מורה | שיעורי בית | מועד הגשה | קבצים / הערות |
 | --- | --- | --- | --- | --- | --- |
@@ -43,24 +47,57 @@ Hebrew example:
 
 ## Defaults and scope
 
-- Last week means the previous completed Sunday–Saturday week in Israel time. Last seven days means today and the previous six dates.
-- Homework lists use a Hebrew table with lesson date, subject, teacher, homework, deadline, and attachments or notes.
-- WhatsApp output is text for you to copy; it is not sent automatically.
-- New-homework checks compare with saved local history. A full date-range list includes previously reported assignments too.
-- The regular timetable is current, not a reconstruction of past weeks.
-- Reports read existing records; they do not submit absence justifications, request retests, or send teacher messages.
+- “Last week” means the previous completed Sunday–Saturday week in Israel time. “Last seven days” means today and the previous six dates.
+- Homework lists use a Hebrew table with lesson date, subject, teacher, homework, deadline, and attachments/notes. Dates on this page are lesson dates, not verified publication dates.
+- WhatsApp or Telegram output is prepared for copying by default; it is not sent automatically.
+- New-update checks compare with saved local history. A full date-range list includes previously reported homework too.
+- The regular timetable is current, not a reconstruction of past weeks. Timetable changes may be unavailable if the account lacks permission.
+- Reports read existing records; they do not submit absence justifications or request retests.
 
 ## Saved history
 
-The existing baseline and reports stay in ~/smartschool-homework. This is local file history, not account-wide memory. Credentials are not saved there.
+Reports and comparison observations are stored locally in ~/smartschool-homework. This is local file history, not account-wide memory. Credentials, session tokens, and bot tokens are not saved there.
 
-## Daily scheduling suggestions
+## Daily scheduling options
 
-Creating this skill does not activate a schedule. In the desktop app's Scheduled section, create a daily task at 17:00 in Asia/Jerusalem with this prompt:
+Creating this skill does not activate a schedule. Choose either a homework-only check or a daily message covering all supported updates.
 
-> Use $webtop to check for new or changed homework, prepare a Hebrew WhatsApp-ready message, and save the observations for the next run.
+For homework only, configure a daily task at a time you choose (the earlier requested time was 17:00, Asia/Jerusalem) with this prompt:
 
-Keep the computer and desktop app running, keep connected Chrome open, and keep the Webtop login active. Review the first run to verify access and output. The prompt checks homework only; request a full report if you want grades, attendance, messages, or timetable data too. A schedule is active only after the scheduling interface confirms it.
+> Use $webtop to check for new or changed homework, prepare the Hebrew update, and save the observations for the next run.
+
+For all supported updates, use this prompt:
+
+> Use $webtop to check homework, grades, attendance and lesson events, timetable changes, and teacher messages for new or changed records since the previous check. Prepare one Hebrew update covering all changes, clearly list any module you could not check, and save separate observations for the next run.
+
+Choose how to deliver the update:
+
+- **Prepare only:** leave it in chat as WhatsApp- or Telegram-ready text for you to copy. This is the default.
+- **Send automatically:** configure one channel (WhatsApp or Telegram), the intended recipient, and a connected supported messaging integration. Add this instruction to the scheduled prompt: Send the update via [WhatsApp or Telegram] to [the recipient configured for this task]. Sending is opt-in; if the channel or recipient is missing, or the integration is unavailable, the skill returns the prepared text and reports that it was not sent. Keep account credentials and bot tokens out of skill files and history.
+
+Example daily message:
+
+```text
+📚 עדכון Webtop יומי | 27/09/2026
+
+שיעורי בית חדשים/שהשתנו:
+• 27/9, חשבון: להשלים עמ׳ 42–43.
+
+ציונים:
+• 26/9, עברית: נוספה הערכה "הבנת הנקרא" — 90.
+
+נוכחות ואירועי שיעור:
+• 27/9, שיעור 2: נרשם איחור.
+
+הודעות מורים:
+• 26/9, יעל: להביא מחברת ביום שני.
+
+שינויים במערכת: לא ניתן לבדוק — אין הרשאה לעמוד השינויים.
+
+שליחה: נשלח דרך Telegram לנמען שהוגדר במשימה.
+```
+
+The example is illustrative; include only records actually found since the previous successful check. On a module's first check, its existing records establish a baseline and are not described as new. Keep the computer and desktop app running, connected Chrome open, and the Webtop login active. Review the first run to verify access and output. If you already created a task using an earlier skill name, update its prompt to $webtop. A schedule is active only after the scheduling interface confirms it.
 
 ## Skill files
 
