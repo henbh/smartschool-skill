@@ -1,11 +1,11 @@
 ---
-name: webtop-smartschool
+name: webtop
 description: Read the Smartschool Webtop student portal through connected Chrome and produce Hebrew homework, timetable, grade, attendance, lesson-event, and teacher-message reports.
 ---
 
 # Webtop Smartschool
 
-Smartschool is the product and Webtop is its student portal. Use this skill for requests mentioning either name. The connected Chrome profile must already be signed in.
+Smartschool is the product and Webtop is its student portal. Use $webtop for explicit invocation. Natural-language requests mentioning either name also route here. The connected Chrome profile must already be signed in.
 
 ## Defaults
 
@@ -15,6 +15,10 @@ Smartschool is the product and Webtop is its student portal. Use this skill for 
 - Dates shown by Webtop are lesson dates, not verified posting timestamps.
 - Do not infer deadlines, page ranges, grades, absences, or teacher roles.
 - Do not send messages, submit absence justifications, or request retests.
+
+## Requirements
+
+Use connected Chrome with the required browser extension enabled, an active login to https://webtop.smartschool.co.il/, and the requested student selected. If Chrome or login is unavailable, explain the access blocker.
 
 ## Modules
 
@@ -34,4 +38,4 @@ Use Hebrew tables for reports and Hebrew WhatsApp-ready text only when requested
 
 For recurring homework checks, read the local history at ~/smartschool-homework, compare content, and report only new or changed assignments. Save dated observations after successful reads. Never save credentials or unrelated student data.
 
-Use the explicit invocation $webtop-smartschool.
+For scheduling, use a daily task at 17:00 in Asia/Jerusalem with: Use $webtop to check for new or changed homework, prepare the Hebrew WhatsApp-ready message, and save the observations for the next run. A schedule is active only after the scheduling interface confirms it.
