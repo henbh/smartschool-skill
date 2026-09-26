@@ -20,9 +20,13 @@ Requirements:
 - An active login to the Webtop portal in that connected Chrome profile.
 - The Smartschool student account and requested student selected in Webtop.
 
+The skill files should be in `~/.codex/skills/webtop`. Start a new chat after installation if the skill picker does not show `$webtop`.
+
+If Webtop is signed out, sign in to allow a live check. The skill may answer from local saved history only when it covers the requested student, dates, and sections; it will label the data as cached and state when it was last checked. It will ask you to sign in when saved data does not cover the request.
+
 ## How to use
 
-Mention $webtop in a message and describe the report you want. You can write in Hebrew or English.
+Mention `$webtop` in a message and describe the report you want. You can write in Hebrew or English.
 
 | Report | Example prompt |
 | --- | --- |
@@ -36,13 +40,14 @@ Mention $webtop in a message and describe the report you want. You can write in 
 | Attendance | `Use $webtop to list last week's recorded absences and lateness.` |
 | Lesson events | `Use $webtop to list last week's lesson events, including positive feedback.` |
 | Teacher messages | `Use $webtop to summarize last week's teacher messages and explicit deadlines.` |
+| Weekly student report | `Use $webtop to prepare my weekly student report in Hebrew: homework, grades, positive feedback, behavior notes counted by subject, year-to-date absences and lateness statistics, and the current timetable.` |
 | Full report | `Use $webtop to prepare a full weekly report in Hebrew: homework, grades, attendance and lesson events, teacher messages, and the current timetable with available changes.` |
 
 Hebrew example:
 
 > השתמש ב־$webtop והצג את שיעורי הבית של השבוע שעבר בטבלה בעברית.
 
-## Example homework output
+Example output:
 
 | תאריך השיעור | מקצוע | מורה | שיעורי בית | מועד הגשה | קבצים / הערות |
 | --- | --- | --- | --- | --- | --- |
@@ -51,18 +56,43 @@ Hebrew example:
 
 הטבלה מציגה תאריכי שיעור כפי שנרשמו ב-Webtop. אם אין הרשאה, אין נתונים, או שהקריאה חלקית, התשובה מציינת זאת במפורש.
 
+### Example weekly student report
+
+```text
+📚 דוח שבועי | 13–19/09/2026
+
+מילים טובות: 3 רשומות — חשבון (2), עברית (1).
+הערות התנהגות: 2 רשומות — עברית (1), מדעים (1).
+
+סטטיסטיקה שנתית עד 19/09/2026 (מתחילת שנת הלימודים):
+• חיסורים: 2 | איחורים: 4
+• מילים טובות: 8 | הערות התנהגות: 3
+הספירות מבוססות על הרשומות הזמינות באתר, אינן אחוזי נוכחות, ולא כוללות ימים ללא רישום.
+
+מערכת שעות נוכחית:
+יום א׳: שיעור 1 חשבון — דנה; שיעור 2 עברית — יעל.
+שינויים לשבוע: לא ניתן לבדוק — אין הרשאה לעמוד השינויים.
+```
+
+The values above are illustrative. Use the event category, subject/teacher in `קבוצת לימוד`, and note exactly as displayed. Webtop's event counter is semester-filtered; combine the relevant periods and apply the report-date cutoff for year-to-date totals. Count absences/lateness only from explicit categories—`נוכחות` is not an absence count. State data-coverage limits.
+
+Specify the student when there is more than one available.
+
 ## Defaults and scope
 
 - “Last week” means the previous completed Sunday–Saturday week in Israel time. “Last seven days” means today and the previous six dates.
 - Homework lists use a Hebrew table with lesson date, subject, teacher, homework, deadline, and attachments/notes. Dates on this page are lesson dates, not verified publication dates.
-- WhatsApp or Telegram output is prepared for copying by default; it is not sent automatically.
-- New-update checks compare with saved local history. A full date-range list includes previously reported homework too.
-- The regular timetable is current, not a reconstruction of past weeks. Timetable changes may be unavailable if the account lacks permission.
-- Reports read existing records; they do not submit absence justifications or request retests.
+- WhatsApp output is text for you to copy; it is not sent automatically.
+- New-homework checks compare with saved history. A full date-range list includes previously reported assignments too.
+- A weekly student report can include positive feedback, behavior notes counted by subject, year-to-date absence/lateness and event statistics, and the current timetable. Annual totals must cover the selected school year and name any coverage limits.
+- Webtop's event counter separates school year and semester; it includes event-type totals and a subject chart. Do not treat a single semester's counter as an annual total.
+- The regular timetable is current, not a reconstruction of past weeks.
+- Timetable changes were permission-denied for the account when inspected on 26/09/2026. The skill reports this limitation if it persists.
+- Reports read existing records; they do not submit absence justifications, request retests, or send teacher messages.
 
 ## Saved history
 
-Reports and comparison observations are stored locally in `~/smartschool-homework`. This is local file history, not account-wide memory. Credentials, session tokens, and bot tokens are not saved there.
+The existing baseline and reports stay in `/Users/hen/smartschool-homework`. This folder name remains unchanged after the skill rename so previous history stays available. This is local file history, not account-wide ChatGPT memory. Credentials are not saved there.
 
 ## Daily scheduling options
 
@@ -70,7 +100,7 @@ Creating this skill does not activate a schedule. Choose either a homework-only 
 
 For homework only, configure a daily task at a time you choose (the earlier requested time was **17:00, Asia/Jerusalem**) with this prompt:
 
-> Use $webtop to check for new or changed homework, prepare the Hebrew update, and save the observations for the next run.
+> Use $webtop to check for new or changed homework, prepare a Hebrew WhatsApp-ready message, and save the observations for the next run.
 
 For all supported updates, use this prompt:
 
@@ -79,7 +109,7 @@ For all supported updates, use this prompt:
 Choose how to deliver the update:
 
 - **Prepare only:** leave it in chat as WhatsApp- or Telegram-ready text for you to copy. This is the default.
-- **Send automatically:** configure one channel (WhatsApp or Telegram), the intended recipient, and a connected supported messaging integration. Add this instruction to the scheduled prompt: `Send the update via [WhatsApp or Telegram] to [the recipient configured for this task].` Sending is opt-in; if the channel or recipient is missing, or the integration is unavailable, the skill returns the prepared text and reports that it was not sent. Keep account credentials and bot tokens out of the skill files and history.
+- **Send automatically:** configure one channel (WhatsApp or Telegram), the intended recipient, and a connected supported messaging integration. Add this instruction to the scheduled prompt: `Send the update via [WhatsApp or Telegram] to [the recipient configured for this task].` Sending remains opt-in; if the channel or recipient is missing, or the integration is unavailable, the skill returns the prepared text and reports that it was not sent. Keep account credentials and bot tokens out of the skill files and history.
 
 Example daily message:
 
@@ -103,7 +133,7 @@ Example daily message:
 שליחה: נשלח דרך Telegram לנמען שהוגדר במשימה.
 ```
 
-The example is illustrative; the message should include only records actually found since the previous successful check. On a module's first check, its existing records establish a baseline and are not described as new. Keep the computer and desktop app running, connected Chrome open, and the Webtop login active. Review the first run to verify access and output. If you already created a task using an earlier skill name, update its prompt to $webtop. A schedule is active only after the scheduling interface confirms it.
+The example is illustrative; the message should include only records actually found since the previous successful check. On a module's first check, its existing records establish a baseline and are not described as new. The local workflow needs the computer and desktop app running, connected Chrome, and an active Webtop sign-in. Review the first run to verify access and output. If you already created a task using an earlier skill name, update its prompt to `$webtop`. A schedule is active only after the scheduling interface confirms it.
 
 ## Skill files
 
