@@ -4,6 +4,14 @@ Read the Smartschool Webtop student portal through connected Chrome and create H
 
 Webtop portal: [https://webtop.smartschool.co.il/](https://webtop.smartschool.co.il/)
 
+## Install in Codex
+
+See the [Codex skills guide](https://developers.openai.com/codex/skills) for how Codex discovers and invokes skills. To install this repository manually, download its ZIP from GitHub and copy `SKILL.md` and the `references/` folder into `~/.codex/skills/webtop/` (create the `webtop` folder if needed). The installed folder should contain `SKILL.md` and `references/student-modules.md`. Start a new Codex chat and invoke the skill with `$webtop`.
+
+## Claude Code compatibility
+
+Claude Code supports skills using `SKILL.md`. Its personal skill location is `~/.claude/skills/webtop/`, and the command is `/webtop`; see the [Claude Code skills guide](https://code.claude.com/docs/en/skills). This repository is currently written for Codex, so Claude Code use is not verified as a drop-in experience: you must also configure a browser integration that Claude Code can access to read Webtop through Chrome. The Codex connected-Chrome setup described below is not bundled for Claude Code.
+
 ## Setup
 
 Requirements:
@@ -12,25 +20,23 @@ Requirements:
 - An active login to the Webtop portal in that connected Chrome profile.
 - The Smartschool student account and requested student selected in Webtop.
 
-The skill is installed at ~/.codex/skills/webtop. Start a new chat after installation if the skill picker still shows its former name.
-
 ## How to use
 
 Mention $webtop in a message and describe the report you want. You can write in Hebrew or English.
 
 | Report | Example prompt |
 | --- | --- |
-| Last week's homework | Use $webtop to list last week's homework in a Hebrew table. |
-| Specific dates | Use $webtop to list homework from 01/09/2026 through 26/09/2026. |
-| New homework only | Use $webtop to check for new or changed homework since the previous check. |
-| Daily all-updates message | Use $webtop to check all supported sections for new or changed updates since the previous check and prepare one Hebrew message. |
-| WhatsApp text | Use $webtop to prepare last week's homework as a Hebrew WhatsApp message. |
-| Timetable | Use $webtop to show tomorrow's timetable and any available changes. |
-| Grades | Use $webtop to summarize grades for the current study period. |
-| Attendance | Use $webtop to list last week's recorded absences and lateness. |
-| Lesson events | Use $webtop to list last week's lesson events, including positive feedback. |
-| Teacher messages | Use $webtop to summarize last week's teacher messages and explicit deadlines. |
-| Full report | Use $webtop to prepare a full weekly report in Hebrew: homework, grades, attendance and lesson events, teacher messages, and the current timetable with available changes. |
+| Last week's homework | `Use $webtop to list last week's homework in a Hebrew table.` |
+| Specific dates | `Use $webtop to list homework from 01/09/2026 through 26/09/2026.` |
+| New homework only | `Use $webtop to check for new or changed homework since the previous check.` |
+| Daily all-updates message | `Use $webtop to check all supported sections for new or changed updates since the previous check and prepare one Hebrew message.` |
+| WhatsApp text | `Use $webtop to prepare last week's homework as a Hebrew WhatsApp message.` |
+| Timetable | `Use $webtop to show tomorrow's timetable and any available changes.` |
+| Grades | `Use $webtop to summarize grades for the current study period.` |
+| Attendance | `Use $webtop to list last week's recorded absences and lateness.` |
+| Lesson events | `Use $webtop to list last week's lesson events, including positive feedback.` |
+| Teacher messages | `Use $webtop to summarize last week's teacher messages and explicit deadlines.` |
+| Full report | `Use $webtop to prepare a full weekly report in Hebrew: homework, grades, attendance and lesson events, teacher messages, and the current timetable with available changes.` |
 
 Hebrew example:
 
@@ -56,13 +62,13 @@ Hebrew example:
 
 ## Saved history
 
-Reports and comparison observations are stored locally in ~/smartschool-homework. This is local file history, not account-wide memory. Credentials, session tokens, and bot tokens are not saved there.
+Reports and comparison observations are stored locally in `~/smartschool-homework`. This is local file history, not account-wide memory. Credentials, session tokens, and bot tokens are not saved there.
 
 ## Daily scheduling options
 
 Creating this skill does not activate a schedule. Choose either a homework-only check or a daily message covering all supported updates.
 
-For homework only, configure a daily task at a time you choose (the earlier requested time was 17:00, Asia/Jerusalem) with this prompt:
+For homework only, configure a daily task at a time you choose (the earlier requested time was **17:00, Asia/Jerusalem**) with this prompt:
 
 > Use $webtop to check for new or changed homework, prepare the Hebrew update, and save the observations for the next run.
 
@@ -73,7 +79,7 @@ For all supported updates, use this prompt:
 Choose how to deliver the update:
 
 - **Prepare only:** leave it in chat as WhatsApp- or Telegram-ready text for you to copy. This is the default.
-- **Send automatically:** configure one channel (WhatsApp or Telegram), the intended recipient, and a connected supported messaging integration. Add this instruction to the scheduled prompt: Send the update via [WhatsApp or Telegram] to [the recipient configured for this task]. Sending is opt-in; if the channel or recipient is missing, or the integration is unavailable, the skill returns the prepared text and reports that it was not sent. Keep account credentials and bot tokens out of skill files and history.
+- **Send automatically:** configure one channel (WhatsApp or Telegram), the intended recipient, and a connected supported messaging integration. Add this instruction to the scheduled prompt: `Send the update via [WhatsApp or Telegram] to [the recipient configured for this task].` Sending is opt-in; if the channel or recipient is missing, or the integration is unavailable, the skill returns the prepared text and reports that it was not sent. Keep account credentials and bot tokens out of the skill files and history.
 
 Example daily message:
 
@@ -97,7 +103,7 @@ Example daily message:
 שליחה: נשלח דרך Telegram לנמען שהוגדר במשימה.
 ```
 
-The example is illustrative; include only records actually found since the previous successful check. On a module's first check, its existing records establish a baseline and are not described as new. Keep the computer and desktop app running, connected Chrome open, and the Webtop login active. Review the first run to verify access and output. If you already created a task using an earlier skill name, update its prompt to $webtop. A schedule is active only after the scheduling interface confirms it.
+The example is illustrative; the message should include only records actually found since the previous successful check. On a module's first check, its existing records establish a baseline and are not described as new. Keep the computer and desktop app running, connected Chrome open, and the Webtop login active. Review the first run to verify access and output. If you already created a task using an earlier skill name, update its prompt to $webtop. A schedule is active only after the scheduling interface confirms it.
 
 ## Skill files
 
