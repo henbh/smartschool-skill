@@ -74,7 +74,7 @@ Example output:
 שינויים לשבוע: לא ניתן לבדוק — אין הרשאה לעמוד השינויים.
 ```
 
-The values above are illustrative. Use only categories and details actually shown in Webtop. Annual statistics cover the selected school year through the report date and must include data-coverage limitations.
+The values above are illustrative. Use the event category, subject/teacher in `קבוצת לימוד`, and note exactly as displayed. Webtop's event counter is semester-filtered; combine the relevant periods and apply the report-date cutoff for year-to-date totals. Count absences/lateness only from explicit categories—`נוכחות` is not an absence count. State data-coverage limits.
 
 Specify the student when there is more than one available.
 
@@ -85,6 +85,7 @@ Specify the student when there is more than one available.
 - WhatsApp output is text for you to copy; it is not sent automatically.
 - New-homework checks compare with saved history. A full date-range list includes previously reported assignments too.
 - A weekly student report can include positive feedback, behavior notes counted by subject, year-to-date absence/lateness and event statistics, and the current timetable. Annual totals must cover the selected school year and name any coverage limits.
+- Webtop's event counter separates school year and semester; it includes event-type totals and a subject chart. Do not treat a single semester's counter as an annual total.
 - The regular timetable is current, not a reconstruction of past weeks.
 - Timetable changes were permission-denied for the account when inspected on 26/09/2026. The skill reports this limitation if it persists.
 - Reports read existing records; they do not submit absence justifications, request retests, or send teacher messages.
