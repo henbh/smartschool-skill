@@ -5,7 +5,7 @@ description: Read the Smartschool Webtop student portal through connected Chrome
 
 # Webtop Smartschool student reports
 
-The product is Smartschool and the student portal is Webtop. Use `$webtop` for explicit invocation; natural-language requests mentioning either “Smartschool” or “Webtop” should also route here.
+The product is Smartschool and the student portal is Webtop. For explicit invocation use `$webtop` in Codex or `/webtop` in Claude Code; natural-language requests mentioning either “Smartschool” or “Webtop” should also route here.
 
 ## Personal defaults
 
@@ -13,7 +13,7 @@ The product is Smartschool and the student portal is Webtop. Use `$webtop` for e
 - Browser: the user's connected Chrome profile signed in to Smartschool.
 - Default one-off output: a Hebrew homework table returned in the chat. When the user asks for a weekly student report/full weekly report, include homework, weekly positive feedback and behavior notes, year-to-date attendance/event statistics, and the current timetable, plus other requested modules.
 - Optional output: Hebrew WhatsApp- or Telegram-ready text when requested; the daily update workflow uses this format by default.
-- History folder: `/Users/hen/smartschool-homework`.
+- History folder: `~/smartschool-homework`.
 - Recurring preference: daily at 17:00, timezone `Asia/Jerusalem`. This skill does not itself activate a schedule. Only report a schedule as active after verifying its creation with a supported scheduling tool or interface.
 
 Use an explicit requested date range for a one-off summary. For recurring checks, compare against saved observations, starting with lesson dates from 2026-09-01 through the current date. The user can change these defaults.
@@ -61,7 +61,7 @@ Interpretation rules derived from this site:
 
 ## History and recurring checks
 
-Read `/Users/hen/smartschool-homework/workflow.md` for the existing baseline and any previous reports or snapshots in the history folder. This is local task memory, not account-wide ChatGPT memory.
+Read `~/smartschool-homework/workflow.md` for the existing baseline and any previous reports or snapshots in the history folder. This is local task memory, not cross-session model memory.
 
 For recurring homework checks, revisit the saved date range to detect late additions to earlier lessons. Compare assignment content, not just the lesson date. Return only new or substantively changed assignments, clearly labeling changes. Do not infer completion from an assignment's age or disappearance.
 
@@ -87,4 +87,4 @@ Example shape:
 
 Preparing a WhatsApp- or Telegram-ready message does not include sending it. Sending is opt-in and requires the user to choose a channel and recipient, authorize sending in the one-off request or scheduled task, and have a connected, supported integration for that channel. Never guess a recipient or store login credentials, bot tokens, or session tokens in history. If the selected channel cannot be reached, return the prepared message and explain that it was not sent.
 
-For a daily homework-only schedule, use: `Use $webtop to check for new or changed homework, prepare the Hebrew update, and save the observations for the next run.` For a daily all-updates schedule, use: `Use $webtop to check homework, grades, attendance and lesson events, timetable changes, and teacher messages for new or changed records since the previous check. Prepare one Hebrew update covering all changes, clearly list any module you could not check, and save separate observations for the next run.` To send it, append `Send this update via [WhatsApp or Telegram] to [the recipient I specify in this scheduled task]` after selecting one channel and recipient. Do not send if the channel or recipient is unspecified or its connected integration is unavailable; return the prepared message instead. Configure the schedule separately when requested and available; the user chooses the schedule time.
+For a daily homework-only schedule, use: `Use the webtop skill to check for new or changed homework, prepare the Hebrew update, and save the observations for the next run.` For a daily all-updates schedule, use: `Use the webtop skill to check homework, grades, attendance and lesson events, timetable changes, and teacher messages for new or changed records since the previous check. Prepare one Hebrew update covering all changes, clearly list any module you could not check, and save separate observations for the next run.` To send it, append `Send this update via [WhatsApp or Telegram] to [the recipient I specify in this scheduled task]` after selecting one channel and recipient. Do not send if the channel or recipient is unspecified or its connected integration is unavailable; return the prepared message instead. Configure the schedule separately when requested and available; the user chooses the schedule time.

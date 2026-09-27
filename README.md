@@ -92,7 +92,7 @@ Specify the student when there is more than one available.
 
 ## Saved history
 
-The existing baseline and reports stay in `/Users/hen/smartschool-homework`. This folder name remains unchanged after the skill rename so previous history stays available. This is local file history, not account-wide ChatGPT memory. Credentials are not saved there.
+The existing baseline and reports stay in `~/smartschool-homework`. This folder name remains unchanged after the skill rename so previous history stays available. This is local file history, not cross-session model memory. Credentials are not saved there.
 
 ## Daily scheduling options
 
@@ -100,11 +100,11 @@ Creating this skill does not activate a schedule. Choose either a homework-only 
 
 For homework only, configure a daily task at a time you choose (the earlier requested time was **17:00, Asia/Jerusalem**) with this prompt:
 
-> Use $webtop to check for new or changed homework, prepare a Hebrew WhatsApp-ready message, and save the observations for the next run.
+> Use the webtop skill to check for new or changed homework, prepare a Hebrew WhatsApp-ready message, and save the observations for the next run.
 
 For all supported updates, use this prompt:
 
-> Use $webtop to check homework, grades, attendance and lesson events, timetable changes, and teacher messages for new or changed records since the previous check. Prepare one Hebrew update covering all changes, clearly list any module you could not check, and save separate observations for the next run.
+> Use the webtop skill to check homework, grades, attendance and lesson events, timetable changes, and teacher messages for new or changed records since the previous check. Prepare one Hebrew update covering all changes, clearly list any module you could not check, and save separate observations for the next run.
 
 Choose how to deliver the update:
 
